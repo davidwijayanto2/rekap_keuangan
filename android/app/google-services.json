@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1081964250760",
+    "firebase_url": "https://rekap-keuangan.firebaseio.com",
+    "project_id": "rekap-keuangan",
+    "storage_bucket": "rekap-keuangan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081964250760:android:f9f83bb1572549f115813d",
+        "android_client_info": {
+          "package_name": "com.pandacode.rekap_keuangan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081964250760-5qiak3qhsskjg4qobmqaibrnt1aph8pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoi5nWqkYwV0B7_NhPyh5Sy_rbjtRITA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081964250760-5qiak3qhsskjg4qobmqaibrnt1aph8pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
