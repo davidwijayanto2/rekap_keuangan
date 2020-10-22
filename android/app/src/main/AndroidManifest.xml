@@ -15,7 +15,7 @@
         android:icon="@mipmap/icon_launcher">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5073070501377591~5579390583"/>
+            android:value="ca-app-pub-5073070501377591~2684059464"/>
         <activity
             android:name="com.pandacode.rekap_keuangan.MainActivity"
             android:launchMode="singleTop"

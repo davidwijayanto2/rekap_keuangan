@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class MyConst {
-  static final nativeAdsUnitID = "ca-app-pub-5073070501377591/7260231745";
-  static final interAdsUnitID = "ca-app-pub-5073070501377591/6488423160";
+  static final nativeAdsUnitID = "ca-app-pub-5073070501377591/3406444733";
+  static final interAdsUnitID = "ca-app-pub-5073070501377591/3282816491";
   static bool adsdelay = false;
   static int adstimer;
   static Timer timer;
@@ -141,6 +141,8 @@ class MyConst {
         adsdelay = false;
       } else {
         adstimer = adstimer - 1;
+        print(adstimer);
+        print(adsdelay);
       }
     });
   }

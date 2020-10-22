@@ -87,16 +87,29 @@ class _RekapScreenState extends State<RekapScreenBody> {
       case AdLoadState.loadCompleted:
         setState(() {
           _height = MyScreens.safeVertical * 12;
-          // MyConst.adsdelay = true;
-          // MyConst.adstimer = 70;
-          // MyConst.setAdsTimer();
         });
+        print('delay: ' + MyConst.adsdelay.toString());
+        //settimer();
         break;
 
       default:
         break;
     }
   }
+
+  // void settimer() {
+  //   int time = 2;
+  //   const oneSec = const Duration(seconds: 1);
+  //   Timer timers;
+  //   timers = new Timer.periodic(oneSec, (Timer timer) {
+  //     if (time < 1) {
+  //       timer.cancel();
+  //       MyConst.adsdelay = true;
+  //       MyConst.adstimer = 70;
+  //       MyConst.setAdsTimer();
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,16 +131,24 @@ class _RekapScreenState extends State<RekapScreenBody> {
                       child: ListView(
                     children: <Widget>[
                       Container(
-                        height: _height,
-                        padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                        margin:
-                            EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                        child: NativeAdmob(
-                          adUnitID: MyConst.nativeAdsUnitID,
-                          controller: _nativeAdController,
-                          type: NativeAdmobType.banner,
-                        ),
-                      ),
+                          height: _height,
+                          padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                          margin: EdgeInsets.only(
+                              bottom: MyScreens.safeVertical * 1),
+                          // child: (!MyConst.adsdelay)
+                          //     ? NativeAdmob(
+                          //         adUnitID: NativeAd
+                          //             .testAdUnitId, //MyConst.nativeAdsUnitID,
+                          //         controller: _nativeAdController,
+                          //         type: NativeAdmobType.banner,
+                          //       )
+                          //     : null,
+                          child: NativeAdmob(
+                            adUnitID: NativeAd
+                                .testAdUnitId, //MyConst.nativeAdsUnitID,
+                            controller: _nativeAdController,
+                            type: NativeAdmobType.banner,
+                          )),
                       graphsection(maprekap['sumtransaksi'][0]),
                       listrekap(
                           maprekap['sumtransaksi'][0], maprekap['rekaplist']),
@@ -148,17 +169,24 @@ class _RekapScreenState extends State<RekapScreenBody> {
                 Flexible(
                     child: ListView(children: <Widget>[
                   Container(
-                    height: _height,
-                    padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                    margin: EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                    child: (!MyConst.adsdelay)
-                        ? NativeAdmob(
-                            adUnitID: MyConst.nativeAdsUnitID,
-                            controller: _nativeAdController,
-                            type: NativeAdmobType.banner,
-                          )
-                        : null,
-                  ),
+                      height: _height,
+                      padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                      margin:
+                          EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
+                      // child: (!MyConst.adsdelay)
+                      //     ? NativeAdmob(
+                      //         adUnitID: NativeAd
+                      //             .testAdUnitId, //MyConst.nativeAdsUnitID,
+                      //         controller: _nativeAdController,
+                      //         type: NativeAdmobType.banner,
+                      //       )
+                      //     : null,
+                      child: NativeAdmob(
+                        adUnitID:
+                            NativeAd.testAdUnitId, //MyConst.nativeAdsUnitID,
+                        controller: _nativeAdController,
+                        type: NativeAdmobType.banner,
+                      )),
                   Container(
                     alignment: Alignment.center,
                     child: Text('Gagal memuat transaksi'),
@@ -177,18 +205,24 @@ class _RekapScreenState extends State<RekapScreenBody> {
                     child: ListView(
                   children: <Widget>[
                     Container(
-                      height: _height,
-                      padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                      margin:
-                          EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                      child: (!MyConst.adsdelay)
-                          ? NativeAdmob(
-                              adUnitID: MyConst.nativeAdsUnitID,
-                              controller: _nativeAdController,
-                              type: NativeAdmobType.banner,
-                            )
-                          : null,
-                    ),
+                        height: _height,
+                        padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                        margin:
+                            EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
+                        // child: (!MyConst.adsdelay)
+                        //     ? NativeAdmob(
+                        //         adUnitID: NativeAd
+                        //             .testAdUnitId, //MyConst.nativeAdsUnitID,
+                        //         controller: _nativeAdController,
+                        //         type: NativeAdmobType.banner,
+                        //       )
+                        //     : null,
+                        child: NativeAdmob(
+                          adUnitID:
+                              MyConst.nativeAdsUnitID,
+                          controller: _nativeAdController,
+                          type: NativeAdmobType.banner,
+                        )),
                     graphsection(maprekap['sumtransaksi'][0]),
                     listrekap(
                         maprekap['sumtransaksi'][0], maprekap['rekaplist']),

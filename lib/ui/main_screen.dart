@@ -89,7 +89,7 @@ class _MainScreenState extends State<MainScreenBody> {
 
   InterstitialAd buildInterstitialAd() {
     return InterstitialAd(
-      adUnitId: InterstitialAd.testAdUnitId,
+      adUnitId: MyConst.interAdsUnitID,
       listener: (MobileAdEvent event) {
         if (event == MobileAdEvent.failedToLoad) {
           myInterstitial..load();

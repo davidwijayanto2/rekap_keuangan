@@ -9,12 +9,9 @@ import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
@@ -41,9 +38,9 @@ class _PerformaScreenState extends State<PerformaScreenBody> {
   var mTanggalmulai, mTanggalakhir;
   List<String> arrtanggal = [];
   PerformaBloc _performaBloc;
-  final _nativeAdController = NativeAdmobController();
-  double _height = 0;
-  StreamSubscription _subscription;
+  // final _nativeAdController = NativeAdmobController();
+  // double _height = 0;
+  //StreamSubscription _subscription;
   @override
   void initState() {
     mTanggalmulai = DateFormat('yyyy-MM-dd')
@@ -63,37 +60,37 @@ class _PerformaScreenState extends State<PerformaScreenBody> {
         tanggalakhir: mTanggalakhir,
         arrtanggal: arrtanggal));
     super.initState();
-    _subscription = _nativeAdController.stateChanged.listen(_onStateChanged);
+    //_subscription = _nativeAdController.stateChanged.listen(_onStateChanged);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _subscription.cancel();
-    _nativeAdController.dispose();
+    // _subscription.cancel();
+    // _nativeAdController.dispose();
   }
 
-  void _onStateChanged(AdLoadState state) {
-    switch (state) {
-      case AdLoadState.loading:
-        setState(() {
-          _height = 0;
-        });
-        break;
+  // void _onStateChanged(AdLoadState state) {
+  //   switch (state) {
+  //     case AdLoadState.loading:
+  //       setState(() {
+  //         _height = 0;
+  //       });
+  //       break;
 
-      case AdLoadState.loadCompleted:
-        setState(() {
-          _height = MyScreens.safeVertical * 12;
-          MyConst.adsdelay = true;
-          MyConst.adstimer = 70;
-          MyConst.setAdsTimer();
-        });
-        break;
+  //     case AdLoadState.loadCompleted:
+  //       setState(() {
+  //         _height = MyScreens.safeVertical * 12;
+  //       });
+  //       // MyConst.adsdelay = true;
+  //       // MyConst.adstimer = 70;
+  //       // MyConst.setAdsTimer();
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -266,19 +263,25 @@ class _PerformaScreenState extends State<PerformaScreenBody> {
                   Flexible(
                       child: ListView(
                     children: <Widget>[
-                      Container(
-                        height: _height,
-                        padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                        margin:
-                            EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                        child: (!MyConst.adsdelay)
-                            ? NativeAdmob(
-                                adUnitID: MyConst.nativeAdsUnitID,
-                                controller: _nativeAdController,
-                                type: NativeAdmobType.banner,
-                              )
-                            : null,
-                      ),
+                      // Container(
+                      //     height: _height,
+                      //     padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                      //     margin: EdgeInsets.only(
+                      //         bottom: MyScreens.safeVertical * 1),
+                      //     //   child: (!MyConst.adsdelay)
+                      //     //       ? NativeAdmob(
+                      //     //           adUnitID: MyConst.nativeAdsUnitID,
+                      //     //           controller: _nativeAdController,
+                      //     //           type: NativeAdmobType.banner,
+                      //     //         )
+                      //     //       : null,
+                      //     // ),
+                      //     child: NativeAdmob(
+                      //       adUnitID: NativeAd
+                      //           .testAdUnitId, //MyConst.nativeAdsUnitID,
+                      //       controller: _nativeAdController,
+                      //       type: NativeAdmobType.banner,
+                      //     )),
                       saldosection(mapperforma['sumsaldo'][0],
                           mapperforma['sumtransaksi'][0]),
                       timechartsection(mapperforma['sumsaldoperbulan']),
@@ -452,19 +455,25 @@ class _PerformaScreenState extends State<PerformaScreenBody> {
                   Flexible(
                       child: ListView(
                     children: <Widget>[
-                      Container(
-                        height: _height,
-                        padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                        margin:
-                            EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                        child: (!MyConst.adsdelay)
-                            ? NativeAdmob(
-                                adUnitID: MyConst.nativeAdsUnitID,
-                                controller: _nativeAdController,
-                                type: NativeAdmobType.banner,
-                              )
-                            : null,
-                      ),
+                      // Container(
+                      //     height: _height,
+                      //     padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                      //     margin: EdgeInsets.only(
+                      //         bottom: MyScreens.safeVertical * 1),
+                      //     //   child: (!MyConst.adsdelay)
+                      //     //       ? NativeAdmob(
+                      //     //           adUnitID: MyConst.nativeAdsUnitID,
+                      //     //           controller: _nativeAdController,
+                      //     //           type: NativeAdmobType.banner,
+                      //     //         )
+                      //     //       : null,
+                      //     // ),
+                      //     child: NativeAdmob(
+                      //       adUnitID: NativeAd
+                      //           .testAdUnitId, //MyConst.nativeAdsUnitID,
+                      //       controller: _nativeAdController,
+                      //       type: NativeAdmobType.banner,
+                      //     )),
                       Flexible(
                           child: Container(
                         alignment: Alignment.center,
