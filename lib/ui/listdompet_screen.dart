@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:rekap_keuangan/blocs/dompet_bloc.dart';
 import 'package:rekap_keuangan/models/dompet.dart';
 import 'package:rekap_keuangan/ui/tambahdompet_screen.dart';
-import 'package:rekap_keuangan/ui/ubahdompet_screen.dart';
 import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
@@ -11,10 +8,7 @@ import 'package:rekap_keuangan/utilities/mywidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 class ListDompetScreen extends StatelessWidget {
   final kddompetpicked;
@@ -44,8 +38,8 @@ class _ListDompetState extends State<ListDompetScreenBody> {
   List<Widget> listdompetglobalwidget = <Widget>[];
   List<Widget> listdompetwidget = <Widget>[];
   DompetBloc _dompetBloc;
-  final _nativeAdController = NativeAdmobController();  
-  StreamSubscription _subscription;
+  // final _nativeAdController = NativeAdmobController();
+  // StreamSubscription _subscription;
   bool adShown = false;
   Map<String, dynamic> mapback;
   var kddompetpicked, semua;
@@ -68,7 +62,7 @@ class _ListDompetState extends State<ListDompetScreenBody> {
   void dispose() {
     super.dispose();
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   @override
@@ -81,7 +75,7 @@ class _ListDompetState extends State<ListDompetScreenBody> {
             return MyWidgets.buildLoadingWidget(context);
           } else if (state is DompetLoadedState) {
             List<Map<String, dynamic>> dompetlist = state.dompetlist;
-            listdompetwidget = <Widget>[];            
+            listdompetwidget = <Widget>[];
 
             for (int i = 0; i < dompetlist.length; i++) {
               if (kddompetpicked != dompetlist[i]['kddompet']) {
@@ -217,7 +211,7 @@ class _ListDompetState extends State<ListDompetScreenBody> {
                 color: '#459CE9');
             listdompetglobalwidget = <Widget>[];
             listdompetwidget = <Widget>[];
-            
+
             Widget circle;
             if (kddompetpicked == 0) {
               circle = Icon(
@@ -462,7 +456,6 @@ class _ListDompetState extends State<ListDompetScreenBody> {
                 ));
           } else if (state is DompetLoadFailureState) {
             return Column(children: <Widget>[
-              
               Container(
                 height: MyScreens.safeVertical * 50,
                 color: MyColors.light,
@@ -473,7 +466,6 @@ class _ListDompetState extends State<ListDompetScreenBody> {
             ]);
           } else if (state is DompetEmptyState) {
             return Column(children: <Widget>[
-              
               Container(
                 height: MyScreens.safeVertical * 50,
                 color: MyColors.light,
@@ -483,7 +475,7 @@ class _ListDompetState extends State<ListDompetScreenBody> {
               )
             ]);
           } else {
-            return Column(children: <Widget>[            
+            return Column(children: <Widget>[
               Container(
                 height: MyScreens.safeVertical * 50,
                 color: MyColors.light,

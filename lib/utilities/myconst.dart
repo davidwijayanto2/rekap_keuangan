@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 class MyConst {
   static final nativeAdsUnitID = "ca-app-pub-5073070501377591/3406444733";
   static final interAdsUnitID = "ca-app-pub-5073070501377591/3282816491";
+  static final versionDocId = "cPUIwXx5fCXauMTHwdRI";
   static bool adsdelay = false;
   static int adstimer;
   static Timer timer;

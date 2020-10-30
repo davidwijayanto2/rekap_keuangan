@@ -7,11 +7,9 @@ import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -40,9 +38,9 @@ class _KategoriState extends State<KategoriScreenBody>
     Tab(text: 'Pemasukan')
   ];
   KategoriBloc _kategoriBloc;
-  final _nativeAdController = NativeAdmobController();
-  double _height = MyScreens.safeVertical * 12;
-  StreamSubscription _subscription;
+  //final _nativeAdController = NativeAdmobController();
+  //double _height = MyScreens.safeVertical * 12;
+  //StreamSubscription _subscription;
   bool adShown = false;
   TabController _tabController;
   var _jenis = 'k';
@@ -77,7 +75,7 @@ class _KategoriState extends State<KategoriScreenBody>
     //   //myAds.dispose();
     // }
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   // NativeAd buildNativeAd() {

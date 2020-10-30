@@ -2,16 +2,13 @@ import 'dart:async';
 
 import 'package:rekap_keuangan/blocs/kategori_bloc.dart';
 import 'package:rekap_keuangan/ui/tambahkategori_screen.dart';
-import 'package:rekap_keuangan/ui/ubakategori_screen.dart';
 import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -42,8 +39,8 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
     Tab(text: 'Pemasukan')
   ];
   KategoriBloc _kategoriBloc;
-  final _nativeAdController = NativeAdmobController();  
-  StreamSubscription _subscription;
+  // final _nativeAdController = NativeAdmobController();
+  // StreamSubscription _subscription;
   bool adShown = false;
   Map<String, dynamic> mapback;
   String titlejenis = '';
@@ -66,7 +63,7 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
   void dispose() {
     super.dispose();
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   @override
@@ -94,7 +91,6 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
                   return getkategoriwidget(kategorilist);
                 } else if (state is KategoriLoadFailureState) {
                   return Column(children: <Widget>[
-                    
                     Container(
                       height: MyScreens.safeVertical * 50,
                       child: Center(
@@ -104,7 +100,6 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
                   ]);
                 } else if (state is KategoriEmptyState) {
                   return Column(children: <Widget>[
-                    
                     Container(
                       height: MyScreens.safeVertical * 50,
                       child: Center(
@@ -114,7 +109,6 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
                   ]);
                 } else {
                   return Column(children: <Widget>[
-                    
                     Container(
                       height: MyScreens.safeVertical * 50,
                       child: Center(
@@ -147,7 +141,7 @@ class _ListKategoriState extends State<ListKategoriScreenBody> {
   Widget getkategoriwidget(_kategorilist) {
     List<Widget> listkategoriwidget = <Widget>[];
     listkategoriwidget = <Widget>[];
-    
+
     for (int i = 0; i < _kategorilist.length; i++) {
       listkategoriwidget.add(Column(
         children: <Widget>[

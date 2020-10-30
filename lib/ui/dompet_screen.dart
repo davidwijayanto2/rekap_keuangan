@@ -10,10 +10,8 @@ import 'package:rekap_keuangan/utilities/mywidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 
 class DompetScreen extends StatelessWidget {
   @override
@@ -36,8 +34,8 @@ class DompetScreenBody extends StatefulWidget {
 class _DompetState extends State<DompetScreenBody> {
   List<Widget> listdompetwidget = <Widget>[];
   DompetBloc _dompetBloc;
-  final _nativeAdController = NativeAdmobController();
-  StreamSubscription _subscription;
+  // final _nativeAdController = NativeAdmobController();
+  // StreamSubscription _subscription;
   bool adShown = false;
   @override
   void initState() {
@@ -51,7 +49,7 @@ class _DompetState extends State<DompetScreenBody> {
   void dispose() {
     super.dispose();
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   @override

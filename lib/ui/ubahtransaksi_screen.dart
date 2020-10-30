@@ -1,32 +1,21 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
-import 'package:rekap_keuangan/blocs/tambahtransaksi_bloc.dart';
 import 'package:rekap_keuangan/blocs/ubahtransaksi_bloc.dart';
-import 'package:rekap_keuangan/ui/main_screen.dart';
 import 'package:rekap_keuangan/ui/listdompet_screen.dart';
 import 'package:rekap_keuangan/ui/listkategori_screen.dart';
-import 'package:rekap_keuangan/blocs/transaksi_bloc.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_iconpicker/IconPicker/iconPicker.dart';
-import 'package:flutter_iconpicker/IconPicker/icons.dart';
-import 'package:flutter_iconpicker/Models/IconPack.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:progress_dialog/progress_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UbahTransaksiScreen extends StatelessWidget {
@@ -86,9 +75,9 @@ class _UbahTransaksiScreenState extends State<UbahTransaksiScreenBody> {
   UbahTransaksiBloc _ubahtransaksiBloc;
   SharedPreferences prefs;
   bool firstinit = true, adsShown = false;
-  final _nativeAdController = NativeAdmobController();
-  double _height = 0;
-  StreamSubscription _subscription;
+  // final _nativeAdController = NativeAdmobController();
+  // double _height = 0;
+  // StreamSubscription _subscription;
   AppBar appbar;
   var jenis;
   bool transfer;
@@ -111,7 +100,7 @@ class _UbahTransaksiScreenState extends State<UbahTransaksiScreenBody> {
   void dispose() {
     super.dispose();
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   @override
@@ -419,7 +408,6 @@ class _UbahTransaksiScreenState extends State<UbahTransaksiScreenBody> {
                           children: <Widget>[
                             Container(
                                 margin: EdgeInsets.only(
-                                    top: MyScreens.safeVertical * 12,
                                     bottom: MyScreens.safeVertical * 1),
                                 padding: EdgeInsets.only(
                                     top: MyScreens.safeVertical * 2),

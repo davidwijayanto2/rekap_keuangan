@@ -2,14 +2,15 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:rekap_keuangan/blocs/main_bloc.dart';
 import 'package:rekap_keuangan/models/dompet.dart';
-import 'package:rekap_keuangan/ui/intro_screen.dart';
+import 'package:rekap_keuangan/repositories/firestore_helper.dart';
 import 'package:rekap_keuangan/ui/memo_screen.dart';
 import 'package:rekap_keuangan/ui/pengaturan_screen.dart';
-import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
+import 'package:rekap_keuangan/utilities/myscreens.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'rekap_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'transaksi_screen.dart';
@@ -56,6 +59,7 @@ class _MainScreenState extends State<MainScreenBody> {
   InterstitialAd myInterstitial;
   bool backflag = false;
   var firstinit = true;
+  FirestoreHelper fireStore = new FirestoreHelper();
   // void checklocaldata() async {
   //   prefs = await SharedPreferences.getInstance();
   //   bool fIntro = prefs.getBool("fintro") ?? false;
@@ -79,12 +83,144 @@ class _MainScreenState extends State<MainScreenBody> {
     MainScreen.mTanggalakhir = DateFormat('yyyy-MM-dd').format(DateTime.now());
     MyConst.setFilterText();
     MainScreen.range = 1;
+    checkVersion();
   }
 
   @override
   void dispose() {
     myInterstitial.dispose();
     super.dispose();
+  }
+
+  checkVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    int currentVersion = int.parse(packageInfo.buildNumber);
+    fireStore.getVersion().listen((event) {
+      int lastVersion = event.data()['last_version'];
+      int forceUpdate = event.data()['force_update'];
+      if (lastVersion > currentVersion) {
+        if (forceUpdate > currentVersion) {
+          _showForceUpdateDialog();
+        } else {
+          _showUpdateDialog();
+        }
+      }
+    });
+  }
+
+  _showUpdateDialog() {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('VERSI TERBARU DITEMUKAN'),
+            content: Text('Harap update aplikasi Anda ke versi terbaru'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('TIDAK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                child: Text('UPDATE'),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  const url =
+                      'https://play.google.com/store/apps/details?id=com.pandacode.rekap_keuangan';
+                  if (await canLaunch(url)) {
+                    await launch(url);
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  _showForceUpdateDialog() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+              onWillPop: _onAlertBackPressed,
+              child: AlertDialog(
+                  title: Center(
+                      child: Text(
+                    'VERSI TERBARU DITEMUKAN',
+                    textAlign: TextAlign.center,
+                  )),
+                  content: Container(
+                      height: MyScreens.safeVertical * 20,
+                      child: Column(children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Demi kenyamanan saat menggunakan aplikasi Rekap Keuangan, mohon untuk melakukan update',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ]),
+                        SizedBox(
+                          height: MyScreens.safeVertical * 2.5,
+                        ),
+                        DialogButton(
+                          width: double.infinity,
+                          child: Text(
+                            "UPDATE",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () async {
+                            const url =
+                                'https://play.google.com/store/apps/details?id=com.pandacode.rekap_keuangan';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                        )
+                      ]))));
+        }).then((value) {
+      showRandomInterstitialAd();
+      SystemNavigator.pop();
+    });
+    // return Alert(
+    //   context: context,
+    //   type: AlertType.info,
+    //   style: AlertStyle(
+    //       isCloseButton: false,
+    //       isOverlayTapDismiss: false,
+    //       descStyle: TextStyle(fontSize: 14)),
+    //   title: "VERSI TERBARU DITEMUKAN",
+    //   desc:
+    //       "Demi kenyamanan saat menggunakan aplikasi Rekap Keuangan, mohon untuk melakukan update.",
+    //   buttons: [
+    //     DialogButton(
+    //       child: Text(
+    //         "UPDATE",
+    //         style: TextStyle(color: Colors.white, fontSize: 20),
+    //       ),
+    //       onPressed: () async {
+    //         const url =
+    //             'https://play.google.com/store/apps/details?id=com.pandacode.rekap_keuangan';
+    //         if (await canLaunch(url)) {
+    //           await launch(url);
+    //         } else {
+    //           throw 'Could not launch $url';
+    //         }
+    //       },
+    //       width: 120,
+    //     )
+    //   ],
+    // ).show();
   }
 
   InterstitialAd buildInterstitialAd() {
@@ -102,6 +238,7 @@ class _MainScreenState extends State<MainScreenBody> {
   }
 
   void showRandomInterstitialAd() {
+    print('GOALLLLLLL');
     Random r = new Random();
     bool value = r.nextBool();
 
@@ -138,18 +275,32 @@ class _MainScreenState extends State<MainScreenBody> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.chartPie), title: Text('Rekap')),
+              icon: FaIcon(FontAwesomeIcons.chartPie), label: 'Rekap'),
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.wallet), title: Text('Transaksi')),
+              icon: FaIcon(FontAwesomeIcons.wallet), label: 'Transaksi'),
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.clipboardList),
-              title: Text('Memo')),
+              icon: FaIcon(FontAwesomeIcons.clipboardList), label: 'Memo'),
           BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.cog), title: Text('Pengaturan')),
+              icon: FaIcon(FontAwesomeIcons.cog), label: 'Pengaturan'),
         ],
       );
 
   DateTime backButtonPressTime;
+
+  Future<bool> _onAlertBackPressed() {
+    DateTime currentTime = DateTime.now();
+
+    bool backButtonHasNotBeenPressedOrSnackBarHasBeenClosed =
+        backButtonPressTime == null ||
+            currentTime.difference(backButtonPressTime) > Duration(seconds: 2);
+
+    if (backButtonHasNotBeenPressedOrSnackBarHasBeenClosed) {
+      backButtonPressTime = currentTime;
+      Fluttertoast.showToast(msg: "Tekan sekali lagi untuk keluar");
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
 
   Future<bool> _onBackPressed() {
     DateTime currentTime = DateTime.now();
@@ -208,6 +359,7 @@ class _MainScreenState extends State<MainScreenBody> {
     //     firstinit = false;
     //   }
     // });
+    MyScreens().initScreen(context);
     return BlocBuilder(
       cubit: BlocProvider.of<MainBloc>(context),
       builder: (context, state) {

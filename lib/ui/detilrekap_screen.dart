@@ -92,9 +92,9 @@ class _DetilRekapScreenState extends State<DetilRekapScreenBody> {
   _DetilRekapScreenState({Key key});
   DetilRekapBloc _detilrekapBloc;
   Color mColor, mColorpicked, mColorbg, mColorbgpicked;
-  final _nativeAdController = NativeAdmobController();
-  double _height = 0;
-  StreamSubscription _subscription;
+  //final _nativeAdController = NativeAdmobController();
+  //double _height = 0;
+  //StreamSubscription _subscription;
   var percentage;
   // @override
   // void initstate(){
@@ -114,34 +114,34 @@ class _DetilRekapScreenState extends State<DetilRekapScreenBody> {
         tanggalmulai: MainScreen.mTanggalmulai,
         tanggalakhir: MainScreen.mTanggalakhir));
     super.initState();
-    _subscription = _nativeAdController.stateChanged.listen(_onStateChanged);
+    //_subscription = _nativeAdController.stateChanged.listen(_onStateChanged);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _subscription.cancel();
-    _nativeAdController.dispose();
+    // _subscription.cancel();
+    // _nativeAdController.dispose();
   }
 
-  void _onStateChanged(AdLoadState state) {
-    switch (state) {
-      case AdLoadState.loading:
-        setState(() {
-          _height = 0;
-        });
-        break;
+  // void _onStateChanged(AdLoadState state) {
+  //   switch (state) {
+  //     case AdLoadState.loading:
+  //       setState(() {
+  //         _height = 0;
+  //       });
+  //       break;
 
-      case AdLoadState.loadCompleted:
-        setState(() {
-          _height = MyScreens.safeVertical * 12;
-        });
-        break;
+  //     case AdLoadState.loadCompleted:
+  //       setState(() {
+  //         _height = MyScreens.safeVertical * 12;
+  //       });
+  //       break;
 
-      default:
-        break;
-    }
-  }
+  //     default:
+  //       break;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -290,16 +290,16 @@ class _DetilRekapScreenState extends State<DetilRekapScreenBody> {
                       listrekap(maprekap['sumrekap'], maprekap['rekaplist']),
                     ],
                   )),
-                  Container(
-                    height: _height,
-                    padding: EdgeInsets.all(MyScreens.safeVertical * 1),
-                    margin: EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
-                    child: NativeAdmob(
-                      adUnitID: MyConst.nativeAdsUnitID,
-                      controller: _nativeAdController,
-                      type: NativeAdmobType.banner,
-                    ),
-                  ),
+                  // Container(
+                  //   height: _height,
+                  //   padding: EdgeInsets.all(MyScreens.safeVertical * 1),
+                  //   margin: EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
+                  //   child: NativeAdmob(
+                  //     adUnitID: MyConst.nativeAdsUnitID,
+                  //     controller: _nativeAdController,
+                  //     type: NativeAdmobType.banner,
+                  //   ),
+                  // ),
                 ],
               )),
             );

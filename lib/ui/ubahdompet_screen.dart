@@ -1,27 +1,16 @@
 import 'dart:async';
 
 import 'package:rekap_keuangan/blocs/Ubahdompet_bloc.dart';
-import 'package:rekap_keuangan/ui/main_screen.dart';
-import 'package:rekap_keuangan/blocs/dompet_bloc.dart';
-import 'package:rekap_keuangan/blocs/initdompet_bloc.dart';
 import 'package:rekap_keuangan/utilities/myconst.dart';
 import 'package:rekap_keuangan/utilities/myscreens.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_iconpicker/IconPicker/iconPicker.dart';
-import 'package:flutter_iconpicker/IconPicker/icons.dart';
 import 'package:flutter_iconpicker/Models/IconPack.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:rekap_keuangan/utilities/mycolors.dart';
 import 'package:rekap_keuangan/utilities/mywidgets.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UbahDompetScreen extends StatelessWidget {
   final kddompet;
@@ -63,9 +52,9 @@ class _UbahDompetScreenState extends State<UbahDompetScreenBody> {
   bool isDuplicate = false;
   UbahDompetBloc _ubahDompetBloc;
   bool firstinit = true, adsShown = false;
-  final _nativeAdController = NativeAdmobController();
+  //final _nativeAdController = NativeAdmobController();
   double _height = 0;
-  StreamSubscription _subscription;
+  //StreamSubscription _subscription;
   @override
   void initState() {
     print('masuk initstate');
@@ -83,7 +72,7 @@ class _UbahDompetScreenState extends State<UbahDompetScreenBody> {
   void dispose() {
     super.dispose();
     //_subscription.cancel();
-    _nativeAdController.dispose();
+    //_nativeAdController.dispose();
   }
 
   @override
