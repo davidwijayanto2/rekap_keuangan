@@ -238,7 +238,6 @@ class _MainScreenState extends State<MainScreenBody> {
   }
 
   void showRandomInterstitialAd() {
-    print('GOALLLLLLL');
     Random r = new Random();
     bool value = r.nextBool();
 

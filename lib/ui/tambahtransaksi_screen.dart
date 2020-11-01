@@ -731,8 +731,9 @@ class _TambahTransaksiScreenState extends State<TambahTransaksiScreenBody>
                   //   ),
                   // ),
                   Container(
-                      margin:
-                          EdgeInsets.only(bottom: MyScreens.safeVertical * 1),
+                      margin: EdgeInsets.only(
+                        top: MyScreens.safeVertical * 1,
+                      ),
                       padding:
                           EdgeInsets.only(left: MyScreens.safeHorizontal * 5),
                       child: Text(

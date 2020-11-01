@@ -16,7 +16,7 @@ import java.io.IOException
 import java.nio.channels.FileChannel
 
 class MainActivity: FlutterActivity() {
-  private val CHANNEL = "database"
+  private val CHANNEL = "com.pandacode.rekap_keuangan/database"
   private var BUFFERSZ:Int = 32768
   private var buffer= byteArrayOf(BUFFERSZ.toByte())
   
@@ -25,90 +25,128 @@ class MainActivity: FlutterActivity() {
     GeneratedPluginRegistrant.registerWith(ShimPluginRegistry(flutterEngine))
     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
       call, result ->
-      val sd = Environment.getExternalStorageDirectory().toString()
-      val data = Environment.getDataDirectory()
-      var source:FileChannel
-      var destination: FileChannel
-      val currentDBPath: String = "/user/0/com.pandacode.rekap_keuangan/app_flutter/dbrekapkeuangan"
-      val backupDBPath  = "dbrekapkeuangan.sqlite3"
-      var backupDB:File
-      var dir = File(sd, "/BackupRekapKeuangan/");
-      if(dir.exists()){
-        backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)      
-        Log.v("message", "masuk")
-      } else {        
-        val f = File(sd + "/BackupRekapKeuangan/")
-        f.mkdir()
-        backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)
-        Log.v("message", "keluar")
-      }
-      val myDB = File(data, currentDBPath)      
-      if (call.method == "backupdatabase"){
+      Log.v("message", call.method)
+      if (call.method.equals("backupDatabase")){
         // if(checkrequestpermission()) {
             
         // } else {
         //     requestpermission()
         // }        
-        source = FileInputStream(myDB).getChannel()
-        destination = FileOutputStream(backupDB).getChannel()
-        try {
-          
-          destination.transferFrom(source, 0, source.size())
-          // source.close()
-          // destination.close()
-          //Toast.makeText(this, "Database berhasil dibackup!", Toast.LENGTH_LONG).show()
-          result.success("Database berhasil dibackup!");
-        } catch(e: IOException) {
-          //Toast.makeText(this, "Backup database gagal!", Toast.LENGTH_LONG).show()
-          result.error("FAILED", "Backup database gagal!", null);
-          e.printStackTrace()
-        }finally{
-          try {
-            if(source != null){
-              source.close()
-            }
-          } finally {
-            if(destination != null){
-              destination.close()
-            }
-          }
-        }
-      } else if(call.method == "restoredatabase"){
-        if (backupDB.exists()) {
-          source = FileOutputStream(myDB).getChannel()
-          destination = FileInputStream(backupDB).getChannel()
-          try {            
-            destination.transferTo(0, destination.size(),source)
-            // source.close()
-            // destination.close()
-            //Toast.makeText(this, "Database berhasil direstore!", Toast.LENGTH_LONG).show()
-            result.success("Database berhasil direstore!");
-          } catch(e: IOException) {
-            //Toast.makeText(this, "Restore database gagal!", Toast.LENGTH_LONG).show()
-            result.error("FAILED", "Restore database gagal!", null);
-            e.printStackTrace()
-          }  finally{
-            try {
-              if(source != null){
-                source.close()
-              }
-            } finally {
-              if(destination != null){
-                destination.close()
-              }
-            }
-          } 
-            // Access the copied database so SQLiteHelper will cache it and mark
-            // it as created.
-          
-        }else {
-          //Toast.makeText(this, "File backup tidak ditemukan!", Toast.LENGTH_LONG).show()
-          result.error("UNAVAILABLE", "File backup tidak ditemukan!", null);
-        }          
+        val res = backupDatabase()
+        if(res == 1)
+          result.success("Database berhasil dibackup!")
+        else
+          result.error("FAILED", "Backup database gagal!", null)
+      } else if(call.method.equals("restoreDatabase")){
+        val res = restoreDatabase()
+        if(res == 1)
+          result.success("Database berhasil direstore!")
+        else if(res == 2)
+          result.error("UNAVAILABLE", "File backup tidak ditemukan!", null)
+        else
+          result.error("FAILED", "Restore database gagal!", null)
+        
       } else {
-          result.notImplemented()
+        result.notImplemented()
       }
     }
+    
+  }
+  private fun backupDatabase() : Int {
+    val sd = Environment.getExternalStorageDirectory().toString()
+    val data = Environment.getDataDirectory()
+    var source:FileChannel
+    var destination: FileChannel
+    val currentDBPath: String = "/user/0/com.pandacode.rekap_keuangan/app_flutter/dbrekapkeuangan"
+    val backupDBPath  = "dbrekapkeuangan.sqlite3"
+    var backupDB:File
+    var dir = File(sd, "/BackupRekapKeuangan/")
+    if(dir.exists()){
+      backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)      
+      Log.v("message", "masuk")
+    } else {        
+      val f = File(sd + "/BackupRekapKeuangan/")
+      f.mkdir()
+      backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)
+      Log.v("message", "keluar")
+    }
+    val myDB = File(data, currentDBPath)      
+    source = FileInputStream(myDB).getChannel()
+    destination = FileOutputStream(backupDB).getChannel()
+    try {
+      
+      destination.transferFrom(source, 0, source.size())
+      // source.close()
+      // destination.close()
+      //Toast.makeText(this, "Database berhasil dibackup!", Toast.LENGTH_LONG).show()
+      return 1
+    } catch(e: IOException) {
+      //Toast.makeText(this, "Backup database gagal!", Toast.LENGTH_LONG).show()
+      return 0
+      e.printStackTrace()
+    }finally{
+      try {
+        if(source != null){
+          source.close()
+        }
+      } finally {
+        if(destination != null){
+          destination.close()
+        }
+      }
+    }
+  }
+
+  private fun restoreDatabase() : Int {
+    val sd = Environment.getExternalStorageDirectory().toString()
+    val data = Environment.getDataDirectory()
+    var source:FileChannel
+    var destination: FileChannel
+    val currentDBPath: String = "/user/0/com.pandacode.rekap_keuangan/app_flutter/dbrekapkeuangan"
+    val backupDBPath  = "dbrekapkeuangan.sqlite3"
+    var backupDB:File
+    var dir = File(sd, "/BackupRekapKeuangan/")
+    if(dir.exists()){
+      backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)      
+      Log.v("message", "masuk")
+    } else {        
+      val f = File(sd + "/BackupRekapKeuangan/")
+      f.mkdir()
+      backupDB = File(sd + "/BackupRekapKeuangan/",backupDBPath)
+      Log.v("message", "keluar")
+    }
+    val myDB = File(data, currentDBPath)   
+    if (backupDB.exists()) {
+      source = FileOutputStream(myDB).getChannel()
+      destination = FileInputStream(backupDB).getChannel()
+      try {            
+        destination.transferTo(0, destination.size(),source)
+        // source.close()
+        // destination.close()
+        //Toast.makeText(this, "Database berhasil direstore!", Toast.LENGTH_LONG).show()
+        return 1
+      } catch(e: IOException) {
+        //Toast.makeText(this, "Restore database gagal!", Toast.LENGTH_LONG).show()
+        return 0
+        e.printStackTrace()
+      }  finally{
+        try {
+          if(source != null){
+            source.close()
+          }
+        } finally {
+          if(destination != null){
+            destination.close()
+          }
+        }
+      } 
+        // Access the copied database so SQLiteHelper will cache it and mark
+        // it as created.
+      
+    }else {
+      //Toast.makeText(this, "File backup tidak ditemukan!", Toast.LENGTH_LONG).show()
+      return 2
+    }    
   }
   // @TargetApi(Build.VERSION_CODES.M)
   // private fun checkrequestpermission(): Boolean{

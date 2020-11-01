@@ -25,7 +25,8 @@ class BackupScreenBody extends StatefulWidget {
 }
 
 class _BackupState extends State<BackupScreenBody> {
-  static const platform = const MethodChannel('database');
+  static const platform =
+      const MethodChannel('com.pandacode.rekap_keuangan/database');
   var dir = '';
   @override
   void initState() {
@@ -137,7 +138,7 @@ class _BackupState extends State<BackupScreenBody> {
 
   Future<void> _backupdatabase() async {
     try {
-      var message = await platform.invokeMethod('backupdatabase');
+      var message = await platform.invokeMethod('backupDatabase');
       Fluttertoast.showToast(msg: message);
     } on PlatformException catch (e) {
       print("Failed to backup: '${e.message}'.");
@@ -146,7 +147,7 @@ class _BackupState extends State<BackupScreenBody> {
 
   Future<void> _restoredatabase() async {
     try {
-      var message = await platform.invokeMethod('restoredatabase');
+      var message = await platform.invokeMethod('restoreDatabase');
       Fluttertoast.showToast(msg: message);
     } on PlatformException catch (e) {
       print("Failed to restore: '${e.message}'.");
